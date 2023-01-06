@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-
 void play_track(char * track) {
   // Play the track using afplay on macOS or mpg123 on Linux
   #ifdef __APPLE__
@@ -40,8 +39,6 @@ const char * array_of_words[6] = {
 };
 
 int main(void) {
-  // Play the track
-  // play_track("play.mp3");
 
   // Seed the random number generator
   srand(time(NULL));
@@ -64,32 +61,31 @@ int main(void) {
   for (int i = 0; i < len; i++) {
     printf("_ ");
   }
-
   printf("\n");
 
   while (lives > 0) {
-    int countCompletness = 1;
+    int wordComplete = 1;
 
-    scanf(" %c", guess); // read a single character into guess
-
+    // read a single character into guess
+    scanf(" %c", guess);
+    
     // Check if the character is present in the word
     if (strchr(word, * guess) != NULL) {
       if (strchr(letters, * guess) == NULL) {
         letters[count] = * guess;
         count++;
       }
-
       printf("\n");
       for (int i = 0; i < len; i++) {
         if (strchr(letters, word[i])) {
           printf("%c", word[i]);
         } else {
           printf(" _ ");
-          countCompletness++;
+          wordComplete++;
         }
       }
 
-      if (countCompletness == 1) {
+      if (wordComplete == 1) {
         printf("\n\nYou won! congratulations!\n");
         printf("\nNow close your eyes! You are about to hear like angels sing...\n");
 
@@ -104,10 +100,8 @@ int main(void) {
         play_track("reward.mp3");
         return 0;
       }
-
       printf("\n");
     } else {
-
       printf("\n");
       for (int i = 0; i < len; i++) {
         if (strchr(letters, word[i])) {
@@ -116,19 +110,15 @@ int main(void) {
           printf("_ ");
         }
       }
-
       printf("\n");
 
       lives = lives - 1;
 
       printf("\n");
       printf("Lives left: %d\n", lives);
-
       printf("%s\n", hangmanAscii[lives]);
     }
-
   }
-
   printf("\n\nYou are very-very dead :(\n");
   printf("Random word: %s\n\n", word);
   play_track("loss.wav");
